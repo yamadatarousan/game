@@ -41,9 +41,9 @@ return array(
 	 *
 	 * Set this to 'index.php if you don't use URL rewriting
 	 */
-	// 'index_file' => false,
+	'index_file' => false,
 
-	// 'profiling'  => false,
+	'profiling'  => false,
 
 	/**
 	 * Default location for the file cache
