@@ -4,7 +4,6 @@ use Orm\Model;
 class Model_M_Dungeon_Map extends Model
 {
 	protected static $_properties = array(
-		'id',
 		'm_dungeon_map_id',
 		'name',
 		'flavor_text',
@@ -27,6 +26,8 @@ class Model_M_Dungeon_Map extends Model
 		),
 	);
 
+	protected static $_table = 'm_dungeon_maps';
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
@@ -39,6 +40,14 @@ class Model_M_Dungeon_Map extends Model
 		$val->add_field('weight', 'Weight', 'required|valid_string[numeric]');
 
 		return $val;
+	}
+
+	public function get_m_dungeon_maps_by_map_set_id($map_set_id)
+	{
+		return DB::select()
+		->from(static::$_table)
+		->where('m_dungeon_map_set_id', $map_set_id)
+		->execute();
 	}
 
 }

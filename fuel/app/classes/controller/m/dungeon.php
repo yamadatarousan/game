@@ -4,7 +4,12 @@ class Controller_M_Dungeon extends Controller_Template
 
 	public function action_index()
 	{
-		$data['m_dungeons'] = Model_M_Dungeon::find('all');
+		$m_dungeon_model = Model_M_Dungeon::forge();
+		$m_dungeon_model->set_m_dungeons_by_id(1);
+		$m_dungeon_model->generate_event();
+
+
+
 		$this->template->title = "M_dungeons";
 		$this->template->content = View::forge('m/dungeon/index', $data);
 

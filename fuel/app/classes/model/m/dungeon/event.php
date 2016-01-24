@@ -4,7 +4,6 @@ use Orm\Model;
 class Model_M_Dungeon_Event extends Model
 {
 	protected static $_properties = array(
-		'id',
 		'm_dungeon_event_id',
 		'm_dungeon_event_set_id',
 		'event_type',
@@ -24,6 +23,9 @@ class Model_M_Dungeon_Event extends Model
 		),
 	);
 
+
+	protected static $_table = 'm_dungeon_events';
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
@@ -33,6 +35,14 @@ class Model_M_Dungeon_Event extends Model
 		$val->add_field('weight', 'Weight', 'required|valid_string[numeric]');
 
 		return $val;
+	}
+
+	public function get_m_dungeon_events_by_event_set_id($event_set_id)
+	{
+		return DB::select()
+		->from(static::$_table)
+		->where('m_dungeon_event_set_id', 'in' , $event_set_id)
+		->execute();
 	}
 
 }

@@ -3,8 +3,10 @@ use Orm\Model;
 
 class Model_M_Dungeon_Floor extends Model
 {
+
+	protected static $_table = 'm_dungeon_floors';
+
 	protected static $_properties = array(
-		'id',
 		'm_dungeon_floor_id',
 		'name',
 		'flavor_text',
@@ -42,5 +44,11 @@ class Model_M_Dungeon_Floor extends Model
 
 		return $val;
 	}
+
+	public function get_m_dungeon_floors_by_dungeon_set_id($m_dungeon_set_id)
+	{
+		return DB::select()->from(static::$_table)->where('m_dungeon_set_id', 'in' ,(array)$m_dungeon_set_id)->execute();
+	}
+
 
 }
