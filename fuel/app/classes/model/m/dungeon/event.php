@@ -41,7 +41,7 @@ class Model_M_Dungeon_Event extends Model
 	{
 		return DB::select()
 		->from(static::$_table)
-		->where('m_dungeon_event_set_id', 'in' , $event_set_id)
+		->where('m_dungeon_event_set_id', 'in' , (array)$event_set_id)
 		->execute();
 	}
 

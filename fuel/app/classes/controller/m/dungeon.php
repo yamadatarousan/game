@@ -6,7 +6,7 @@ class Controller_M_Dungeon extends Controller_Template
 	{
 		$m_dungeon_model = Model_M_Dungeon::forge();
 		$m_dungeon_model->set_m_dungeons_by_id(1);
-		$m_dungeon_model->generate_event();
+		$m_dungeon_model->generate_mapevent(1);
 
 
 

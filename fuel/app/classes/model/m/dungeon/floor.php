@@ -47,8 +47,20 @@ class Model_M_Dungeon_Floor extends Model
 
 	public function get_m_dungeon_floors_by_dungeon_set_id($m_dungeon_set_id)
 	{
-		return DB::select()->from(static::$_table)->where('m_dungeon_set_id', 'in' ,(array)$m_dungeon_set_id)->execute();
+		return DB::select()
+		->from(static::$_table)
+		->where('m_dungeon_set_id', 'in' ,(array)$m_dungeon_set_id)
+		->execute();
 	}
 
+	public function get_m_dungeon_floors_by_dungeon_set_id_and_floor_no($m_dungeon_set_id, $floor_no)
+	{
+		return DB::select()
+		->from(static::$_table)
+		->where('m_dungeon_set_id', $m_dungeon_set_id)
+		->and_where('low', '<=', $floor_no)
+		->and_where('high', '>=', $floor_no)
+		->execute();
+	}
 
 }

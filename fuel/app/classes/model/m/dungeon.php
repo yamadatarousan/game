@@ -54,12 +54,17 @@ class Model_M_Dungeon extends Model
 
 	}
 
-	public function generate_event()
+	/**
+	 * フロアのマップ情報とイベントデータを生成
+	 */
+	public function generate_mapevent($floor_no)
 	{
+		// n階のフロアデータ取得
 		$m_dungeon_floor_model = Model_M_Dungeon_Floor::forge();
 		$this->_data_list['m_dungeon_floors'] = $m_dungeon_floor_model
-		->get_m_dungeon_floors_by_dungeon_set_id(
-			$this->_data_list['m_dungeons']['m_dungeon_set_id']
+		->get_m_dungeon_floors_by_dungeon_set_id_and_floor_no(
+			$this->_data_list['m_dungeons']['m_dungeon_set_id'],
+			$floor_no
 		);
 
 		if(!$this->_data_list['m_dungeon_floors'])
@@ -70,6 +75,7 @@ class Model_M_Dungeon extends Model
 			);
 		}
 
+		// n階のフロアマップデータをマップセットの中からランダム取得
 		$draw_cnt = 1;
 		$m_dungeon_map_model = Model_M_Dungeon_Map::forge();
 		foreach ($this->_data_list['m_dungeon_floors'] as $floor)
@@ -87,29 +93,24 @@ class Model_M_Dungeon extends Model
 			}
 
 			$floor_map = array();
-			$floor_map[$floor['m_dungeon_floor_id']] = Module_Dungeon::draw($maps, $draw_cnt);
+			$floor_map[$floor['m_dungeon_floor_id']] = current(Module_Dungeon::draw($maps, $draw_cnt));
 		}
 
 
 		$this->_data_list['m_dungeon_maps'] = array();
 		foreach ($this->_data_list['m_dungeon_floors'] as $floor)
 		{
-			$floor_low = $floor['low'];
-			$floor_high = $floor['high'];
-
-			for ($floor_no=$floor_low; $floor_no <= $floor_high ; $floor_no++)
-			{
-				$this->_data_list['m_dungeon_maps'][$floor_no]= current($floor_map[$floor['m_dungeon_floor_id']]);
-			}
+			$this->_data_list['m_dungeon_maps']= current($floor_map[$floor['m_dungeon_floor_id']]);
 		}
 
 
+		// n階のフロアイベントデータをイベントセットの中からランダム取得(フロアのタイル数分)
 		$m_dungeon_event_model = Model_M_Dungeon_Event::forge();
 		foreach ($this->_data_list['m_dungeon_floors'] as $floor)
 		{
 
 			$events = $m_dungeon_event_model
-			->get_m_dungeon_events_by_event_set_id($floor['m_dungeon_event_set_id'])
+			->get_m_dungeon_events_by_event_set_id($floor['m_dungeon_event_set_id']);
 
 			if(!$events)
 			{
@@ -124,10 +125,8 @@ class Model_M_Dungeon extends Model
 			$square_size = $x*$y;
 
 			$encount_events = array();
-			$encount_events = Module_Dungeon::draw($events, $square_size);
-
+			$encount_events[$floor['m_dungeon_floor_id']] = Module_Dungeon::draw($events, $square_size);
 		}
-
 
 
 	}
