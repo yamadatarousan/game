@@ -96,13 +96,11 @@ class Model_M_Dungeon extends Model
 			$floor_map[$floor['m_dungeon_floor_id']] = current(Module_Dungeon::draw($maps, $draw_cnt));
 		}
 
-
 		$this->_data_list['m_dungeon_maps'] = array();
 		foreach ($this->_data_list['m_dungeon_floors'] as $floor)
 		{
 			$this->_data_list['m_dungeon_maps']= current($floor_map[$floor['m_dungeon_floor_id']]);
 		}
-
 
 		// n階のフロアイベントデータをイベントセットの中からランダム取得(フロアのタイル数分)
 		$m_dungeon_event_model = Model_M_Dungeon_Event::forge();
