@@ -144,6 +144,11 @@ class Model_M_Dungeon extends Model
 			$this->_data_list['m_dungeon_event_maps'][$tile_cnt]['detail'] = $event_detail;
 			++$tile_cnt;
 		}
+
+$maze = Module_Dungeon::create_maze($x, $y);
+Debug::dump($maze);exit;
+		Debug::dump($this->_data_list['m_dungeon_event_maps']);exit;
+
 	}
 
 }
