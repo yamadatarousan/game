@@ -3,6 +3,9 @@ use Orm\Model;
 
 class Model_M_Dungeon extends Model
 {
+	const EVENT_TYPE_TREASURE = 'treasure';
+	const EVENT_TYPE_BATTLE   = 'battle';
+	const EVENT_TYPE_TRAP     = 'trap';
 
 	protected static $_properties = array(
 		'm_dungeon_id',
@@ -126,6 +129,33 @@ class Model_M_Dungeon extends Model
 			$encount_events[$floor['m_dungeon_floor_id']] = Module_Dungeon::draw($events, $square_size);
 		}
 
+		$m_dungeon_event_treasure_model = Model_M_Dungeon_Event_Treasure::forge();
+		$m_dungeon_event_battle_model = Model_M_Dungeon_Event_battle::forge();
+		$m_dungeon_event_trap_model = Model_M_Dungeon_Event_trap::forge();
+
+		$draw_cnt = 1;
+		$tile_cnt = 1;
+		foreach ($encount_events[$floor['m_dungeon_floor_id']] as $event)
+		{
+			if(self::EVENT_TYPE_TREASURE == $event['event_type'])
+			{
+				$m_dungeon_event_treasure = $m_dungeon_event_treasure_model
+				->get_m_dungeon_event_treasure_by_event_set_id($event['m_dungeon_event_set_id']);
+				$this->_data_list['m_dungeon_event_maps'][$tile_cnt] = $event;
+				$this->_data_list['m_dungeon_event_maps'][$tile_cnt]['detail']
+				 = current(Module_Dungeon::draw($m_dungeon_event_treasure ,$draw_cnt));
+
+			}
+			elseif(self::EVENT_TYPE_BATTLE == $event['event_type'])
+			{
+
+			}
+			elseif(self::EVENT_TYPE_TRAP == $event['event_type'])
+			{
+
+			}
+			++$tile_cnt;
+		}
 
 	}
 
