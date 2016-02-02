@@ -1,23 +1,34 @@
 <?php 
+/**
+ * 棒倒し法
+ */
 
+// 迷路サイズ
 $size = 19;
+
+// 棒倒し法式迷路初期化
 $maze = init($size,$size);
-print_r($maze);
+
+// 迷路作成
 $maze = create_maze($maze,$size);
 
+// 入り口
 $maze[0][1] = 0;
+
+// 出口
 $maze[$size-1][$size-2] = 0;
 
+// 迷路描画
 drawing_maze($maze,$size);
 
 function init($x, $y)
 {
 	$maze = array();
 
-	// 縦
+	// 列
 	for ($i=0; $i < $x; $i++)
 	{
-		// 横
+		// 行
 		for ($j=0; $j < $y; $j++)
 		{
 			// 一番上と一番下の行
@@ -48,10 +59,10 @@ function init($x, $y)
 
 function create_maze($maze, $size)
 {
-	 // 縦軸
+	 // 列
 	for ($i=2; $i < $size-2; $i+=2)
 	{
-		// 横軸
+		// 行
 		for ($j=2; $j < $size-2; $j+=2)
 		{
 			// 一番上と一番下
@@ -60,19 +71,23 @@ function create_maze($maze, $size)
 				$rand = rand(0,3);
 				switch ($rand) {
 				case 0:
+					// 外壁除いて2列目の1列手前（1列目）が空なら手前に棒を倒す
 					if($i==2 AND $maze[$i-1][$j]==0)
 					{
+						// 外壁に接する棒が設置される
 						$maze[$i-1][$j] = 1;
 						$end_loop = true;
 					}
 					break;
+				// 次の行に棒を倒す操作
 				case 1;
 					if($maze[$i][$j+1]==0)
 					{
-						$maze[$i][$j+1]=1;
+						$maze[$i][$j+1] = 1;
 						$end_loop = true;
 					}
 					break;
+				// 次の列に棒を倒す操作
 				case 2;
 					if($maze[$i+1][$j]==0)
 					{
@@ -80,6 +95,7 @@ function create_maze($maze, $size)
 						$end_loop = true;
 					}
 					break;
+				// 
 				case 3;
 					if($maze[$i][$j-1]==0)
 					{
@@ -112,5 +128,13 @@ function drawing_maze($maze,$size)
 		echo PHP_EOL;
 	}
 }
+
+
+
+/**
+ * 穴掘り法
+ */
+
+
 
 ?>
