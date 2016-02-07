@@ -135,6 +135,40 @@ function drawing_maze($maze,$size)
  * 穴掘り法
  */
 
+Class dig
+{
+
+	protected $_width;
+	protected $_height;
+	protected $_outofrange = 1;
+	protected $_map = null;
+
+	public function __construct($width, $heigth)
+	{
+		$this->_width = $width;
+		$this->_height = $height;
+		$this->_map = $width*$height;
+	}
+
+	public function start()
+	{
+		static::fill();
+	}
+
+	public static function fill()
+	{
+		for ($i=0; $i < $this->_height; $i++)
+		{
+			for ($j=0; $j < $this->_width; $j++)
+			{
+				$this->_map[$i][$j] = 1;
+			}
+		}
+	}
+
+
+}
+
 
 
 ?>
